@@ -36,9 +36,20 @@ public class Graph {
         int source = Integer.parseInt(bufferedReader.readLine());
         int destination = Integer.parseInt(bufferedReader.readLine());
         boolean[] visited = new boolean[vrtcs];
-        System.out.println(hasPath(graph, source, destination,visited));
+        System.out.println("Has Path: "+hasPath(graph, source, destination,visited));
+
+        boolean[] visitedForAllPaths = new boolean[vrtcs];
+        printAllPaths(graph, source, destination, visitedForAllPaths,"0");
     }
 
+    /**
+     * Method will check if path exist between source and destination
+     * @param graph
+     * @param src
+     * @param dest
+     * @param visited
+     * @return
+     */
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
         if(src == dest){
             return true;
@@ -55,4 +66,16 @@ public class Graph {
         return false;
     }
 
+    public static void printAllPaths(ArrayList<Edge>[] graph, int source, int destination, boolean[] visited, String psf){
+        if(source == destination){
+            System.out.println(psf);
+        }
+        visited[source] = true;
+        for(Edge edge: graph[source]){
+            if(visited[edge.nbr] == false) {
+                printAllPaths(graph, edge.nbr, destination, visited, psf + edge.nbr);
+            }
+        }
+        visited[source] = false;
+    }
 }
